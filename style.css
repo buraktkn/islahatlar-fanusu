@@ -1,0 +1,294 @@
+:root {
+    --ottoman-purple: #4A154B; 
+    --ottoman-gold: #D4AF37;
+    --correct-green: #2ecc71;
+    --wrong-red: #e74c3c;
+    --bg-color: #f5f3ef;
+    --padişah-bg: #ffffff;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Ana sayfanın aşağı kaymasını (global scrollbar) tamamen engeller */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    background-image: radial-gradient(#d3cbbd 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    user-select: none;
+    box-sizing: border-box;
+    padding: 8px 15px; /* Dikey boşluğu daraltarak tablolara maksimum alan bıraktık */
+}
+
+/* Küçültülmüş Üst Başlık Alanı */
+.header {
+    text-align: center;
+    margin-bottom: 3px;
+    flex-shrink: 0; /* Elemanın dikeyde büzüşmesini önler */
+}
+
+.header h1 {
+    color: var(--ottoman-purple);
+    margin: 0 0 1px 0;
+    font-size: 16px; /* Başlık alanı daraltıldı */
+    font-weight: 800;
+}
+
+.header p {
+    color: #666;
+    margin: 0;
+    font-style: italic;
+    font-size: 11px;
+}
+
+/* Küçültülmüş Fanus Alanı */
+.fanus-container {
+    background: white;
+    border: 2px solid var(--ottoman-gold);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 550px;
+    padding: 6px 12px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+    margin: 0 auto 8px auto;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.fanus-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 3px;
+    font-weight: bold;
+}
+
+.islahat-card {
+    background-color: var(--ottoman-purple);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ottoman-gold);
+}
+
+/* Maksimum Boyutlu Ana Oyun Alanı - Ekranın Kalan Tüm Boşluğunu Doldurur */
+.padişahlar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Masaüstünde 4 padişah yan yana */
+    gap: 8px;
+    width: 100%;
+    flex-grow: 1; /* Tabloları dikeyde en alta kadar esnetir */
+    margin-bottom: 4px;
+    min-height: 0; /* İçerideki kaydırma yapısının (overflow) çalışması için kritik ayar */
+}
+
+/* Padişah Sütunları */
+.padişah-column {
+    background-color: var(--padişah-bg);
+    border-top: 4px solid var(--ottoman-purple);
+    border-radius: 6px 6px 0 0;
+    padding: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: background-color 0.15s;
+    box-sizing: border-box;
+    height: 100%; /* Bulunduğu grid alanı kadar tam boy kaplar */
+    min-height: 0;
+}
+
+.padişah-column:hover {
+    background-color: #fffdf9;
+    border-top-color: var(--ottoman-gold);
+}
+
+.padişah-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ottoman-purple);
+    text-align: center;
+    margin-bottom: 6px;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 4px;
+    flex-shrink: 0;
+}
+
+/* Sütun İçindeki Taşmayı Önleyen Konteyner */
+.placed-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3px; /* Kartların arasındaki boşluk daraltıldı */
+    flex-grow: 1;
+    overflow-y: auto; /* Kartlar çok birikirse sütun aşağı uzamaz, içeride taşar ve kayar */
+    padding-right: 2px;
+}
+
+/* Çirkin Gri Scrollbar'ı Gizleme Komutları (Modern ve Akıcı Görünüm) */
+.placed-cards-container::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+.placed-cards-container {
+    -ms-overflow-style: none; /* IE ve Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+/* Küçültülmüş ve Kompakt Yerleştirilmiş Kartlar (Badge Tarzı) */
+.placed-card {
+    background-color: #5c1d5e;
+    color: white;
+    padding: 4px 6px; /* Kart dikey yüksekliği azaltıldı */
+    border-radius: 3px;
+    font-size: 10px; /* Yazı boyutu küçültüldü */
+    line-height: 1.25;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    word-wrap: break-word; /* Uzun kelimelerin kutuyu patlatmasını önler */
+    animation: popIn 0.15s ease;
+}
+
+/* Oyun Sonu Renk Değişim Durumları */
+.placed-card.correct {
+    background-color: var(--correct-green) !important;
+}
+
+.placed-card.wrong {
+    background-color: var(--wrong-red) !important;
+}
+
+/* Alt Bilgi ve Kontrol Paneli */
+.action-container {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    flex-shrink: 0;
+}
+
+.btn {
+    background-color: var(--ottoman-gold);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 2px 6px rgba(212, 175, 55, 0.2);
+    display: none;
+}
+
+.status-info {
+    font-weight: bold;
+    color: #444;
+    font-size: 11px;
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   MOBİL VE TABLET RESPONSIVE AYARLARI (Sıfır Taşma Garantisi)
+   ========================================================================== */
+
+/* Tabletler ve Orta Ekranlar İçin (Ekran Genişliği 950px altı) */
+@media (max-width: 950px) {
+    .padişahlar-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 yan yana, 2 alt alta düzen */
+        gap: 8px;
+    }
+    
+    .padişah-column {
+        height: 100%;
+        min-height: 0;
+    }
+}
+
+/* Akıllı Telefonlar İçin (Ekran Genişliği 550px ve altı) */
+@media (max-width: 550px) {
+    body {
+        padding: 5px 8px; /* Mobilde kenar boşlukları minimuma çekildi */
+    }
+
+    .header h1 {
+        font-size: 14px; /* Başlık telefonda ekrana tam sığsın */
+    }
+
+    .header p {
+        font-size: 10px;
+    }
+
+    .fanus-container {
+        padding: 5px 10px;
+        margin-bottom: 6px;
+    }
+
+    .islahat-card {
+        font-size: 12px;
+        padding: 6px 10px;
+        min-height: 25px;
+    }
+
+    /* 2x2 Mobil Padişah Matrisi */
+    .padişahlar-grid {
+        grid-template-columns: repeat(2, 1fr); /* Telefon dik konumdayken bile 2'li kalır, aşağı taşmaz */
+        gap: 6px;
+    }
+
+    .padişah-column {
+        padding: 5px;
+        border-top-width: 3px; /* Üst ince şerit çizgi bir tık inceltildi */
+    }
+
+    .padişah-name {
+        font-size: 12px;
+        margin-bottom: 4px;
+        padding-bottom: 2px;
+    }
+
+    /* Telefon Ekranındaki İncecik Kartlar */
+    .placed-card {
+        padding: 3px 5px;
+        font-size: 9px; /* Telefonda hem okunabilir hem de çok az yer kaplar */
+        border-radius: 2px;
+    }
+
+    .status-info {
+        font-size: 10px;
+        padding: 4px;
+    }
+}
+
+/* Çok Küçük / Kısa Ekranlı Telefonlar İçin Ekstra Koruma (Dikey Filtre) */
+@media (max-height: 600px) {
+    .padişah-name {
+        font-size: 11px;
+        margin-bottom: 2px;
+    }
+    .fanus-container {
+        display: block;
+    }
+}
