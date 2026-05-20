@@ -93,9 +93,13 @@ const allIslahats = [
 let gamePool = [];
 let currentCard = null;
 let isGameOver = false;
+let totalCorrectAnswers = 0;
+let totalPlacedAnswers = 0;
 
 function initGame() {
     isGameOver = false;
+    totalCorrectAnswers = 0;
+    totalPlacedAnswers = 0;
     document.getElementById("restart-btn").style.display = "none";
     document.getElementById("fanus-container").style.display = "block";
     document.getElementById("game-info").innerText = "Kartı yerleştirmek için padişah tablosuna dokunun.";
@@ -138,13 +142,25 @@ function placeCard(padişahId) {
     
     const cardEl = document.createElement("div");
     cardEl.className = "placed-card";
-    cardEl.innerText = currentCard.text;
     
-    cardEl.dataset.correctPid = currentCard.pId;
-    cardEl.dataset.chosenPid = padişahId;
+    const correctPid = currentCard.pId;
+    totalPlacedAnswers++;
+
+    // ANINDA KONTROL SİSTEMİ
+    if (correctPid === padişahId) {
+        // Doğruysa hemen yeşil yap ve metni yaz
+        cardEl.classList.add("correct");
+        cardEl.innerText = currentCard.text;
+        totalCorrectAnswers++;
+    } else {
+        // Yanlışsa kırmızı yap ve doğrusunu anında yanında göster
+        cardEl.classList.add("wrong");
+        const padisahIsimleri = ["II. Mahmut", "Abdülmecit", "Abdülaziz", "II. Abdülhamit"];
+        cardEl.innerText = `${currentCard.text} (Doğrusu: ${padisahIsimleri[correctPid]})`;
+    }
 
     container.appendChild(cardEl);
-    container.scrollTop = container.scrollHeight;
+    container.scrollTop = container.scrollHeight; // Otomatik aşağı kaydırma
 
     drawNextCard();
 }
@@ -153,41 +169,17 @@ function endGameAndCheck() {
     isGameOver = true;
     document.getElementById("fanus-container").style.display = "none";
     
-    let totalCorrect = 0;
-    let totalPlaced = 0;
-
-    const allPlacedCards = document.querySelectorAll(".placed-card");
-    
-    allPlacedCards.forEach(card => {
-        totalPlaced++;
-        const correctPid = card.dataset.correctPid;
-        const chosenPid = card.dataset.chosenPid;
-
-        if (correctPid === chosenPid) {
-            card.classList.add("correct");
-            totalCorrect++;
-        } else {
-            card.classList.add("wrong");
-            let gercekPadişah = "";
-            if(correctPid == 0) gercekPadişah = "II. Mahmut";
-            if(correctPid == 1) gercekPadişah = "Abdülmecit";
-            if(correctPid == 2) gercekPadişah = "Abdülaziz";
-            if(correctPid == 3) gercekPadişah = "II. Abdülhamit";
-            card.innerText += ` (Doğrusu: ${gercekPadişah})`;
-        }
-    });
-
     const infoText = document.getElementById("game-info");
-    const basariOrani = totalCorrect / totalPlaced;
+    const basariOrani = totalCorrectAnswers / totalPlacedAnswers;
 
     if (basariOrani === 1) {
-        infoText.innerHTML = `🔥 <strong>Skor: ${totalCorrect}/${totalPlaced}</strong><br>"Muazzam bir derece hocam! 79'da 79 yaptın, tarih branşında sana rakip yok!"`;
+        infoText.innerHTML = `🔥 <strong>Skor: ${totalCorrectAnswers}/${totalPlacedAnswers}</strong><br>"Muazzam bir derece hocam! 79'da 79 yaptın, tarih branşında sana rakip yok!"`;
     } else if (basariOrani >= 0.8) {
-        infoText.innerHTML = `✨ <strong>Skor: ${totalCorrect}/${totalPlaced}</strong><br>"Harika hocam! Derece kadrosuna çok yakınsın, ufak tefek kaçanlar nazar boncuğu olsun."`;
+        infoText.innerHTML = `✨ <strong>Skor: ${totalCorrectAnswers}/${totalPlacedAnswers}</strong><br>"Harika hocam! Derece kadrosuna çok yakınsın, ufak tefek kaçanlar nazar boncuğu olsun."`;
     } else if (basariOrani >= 0.5) {
-        infoText.innerHTML = `📐 <strong>Skor: ${totalCorrect}/${totalPlaced}</strong><br>"Gayet makul bir skor hocam, eksikleri gördük. Şimdi tekrar karıştırıp hafızayı tazeleyelim!"`;
+        infoText.innerHTML = `📐 <strong>Skor: ${totalCorrectAnswers}/${totalPlacedAnswers}</strong><br>"Gayet makul bir skor hocam, eksikleri gördük. Şimdi tekrar karıştırıp hafızayı tazeleyelim!"`;
     } else {
-        infoText.innerHTML = `⚠️ <strong>Skor: ${totalCorrect}/${totalPlaced}</strong><br>"Hocam ne yaptın? Hemen videolara geri dönüp ıslahatları baştan eritiyoruz, düşmüyoruz!"`;
+        infoText.innerHTML = `⚠️ <strong>Skor: ${totalCorrectAnswers}/${totalPlacedAnswers}</strong><br>"Hocam ne yaptın? Hemen videolara geri dönüp ıslahatları baştan eritiyoruz, düşmüyoruz!"`;
     }
 
     document.getElementById("restart-btn").style.display = "inline-block";
