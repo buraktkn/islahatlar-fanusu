@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akarsu - Baraj Fanusu</title>
+    <link rel="stylesheet" href="baraj_style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>🌊 Akarsu ve Baraj Fanusu</h1>
+        <p>"Barajı ait olduğu akarsu tablosuna dokunarak gönder!"</p>
+    </div>
+
+    <div class="fanus-container" id="fanus-container">
+        <div class="fanus-title" id="fanus-status">Fanustaki Kalan Baraj: --</div>
+        <div class="islahat-card" id="current-card">Yükleniyor...</div>
+    </div>
+
+    <div class="akarsular-grid">
+        <div class="akarsu-column" onclick="placeCard(0)"><div class="akarsu-name">Sakarya</div><div class="placed-cards-container" id="container-0"></div></div>
+        <div class="akarsu-column" onclick="placeCard(1)"><div class="akarsu-name">Gediz</div><div class="placed-cards-container" id="container-1"></div></div>
+        <div class="akarsu-column" onclick="placeCard(2)"><div class="akarsu-name">B. Menderes</div><div class="placed-cards-container" id="container-2"></div></div>
+        <div class="akarsu-column" onclick="placeCard(3)"><div class="akarsu-name">Manavgat</div><div class="placed-cards-container" id="container-3"></div></div>
+        
+        <div class="akarsu-column" onclick="placeCard(4)"><div class="akarsu-name">Göksu</div><div class="placed-cards-container" id="container-4"></div></div>
+        <div class="akarsu-column" onclick="placeCard(5)"><div class="akarsu-name">Seyhan</div><div class="placed-cards-container" id="container-5"></div></div>
+        <div class="akarsu-column" onclick="placeCard(6)"><div class="akarsu-name">Ceyhan</div><div class="placed-cards-container" id="container-6"></div></div>
+        <div class="akarsu-column" onclick="placeCard(7)"><div class="akarsu-name">Fırat</div><div class="placed-cards-container" id="container-7"></div></div>
+        
+        <div class="akarsu-column" onclick="placeCard(8)"><div class="akarsu-name">Dicle</div><div class="placed-cards-container" id="container-8"></div></div>
+        <div class="akarsu-column" onclick="placeCard(9)"><div class="akarsu-name">Yeşilırmak</div><div class="placed-cards-container" id="container-9"></div></div>
+        <div class="akarsu-column" onclick="placeCard(10)"><div class="akarsu-name">Kızılırmak</div><div class="placed-cards-container" id="container-10"></div></div>
+        <div class="akarsu-column" onclick="placeCard(11)"><div class="akarsu-name">

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islahat Fanusu</title>
+    <link rel="icon" type="image/jpeg" href="/ry_kpss.jpg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="header">
+        <h1>Ramazan Yetgin ile Islahat Fanusu</h1>
+        <p>"Hocam dikkat! Çek kartı, gönder doğru padişaha!"</p>
+    </div>
+
+    <div class="fanus-container" id="fanus-container">
+        <div class="fanus-title" id="fanus-status">Fanustaki Kalan Kart: --</div>
+        <div class="islahat-card" id="current-card">
+            </div>
+    </div>
+
+    <div class="padişahlar-grid">
+        <div class="padişah-column" onclick="placeCard(0)">
+            <div class="padişah-name">II. MAHMUT</div>
+            <div class="placed-cards-container" id="container-0"></div>
+        </div>
+
+        <div class="padişah-column" onclick="placeCard(1)">
+            <div class="padişah-name">SULTAN ABDÜLMECİT</div>
+            <div class="placed-cards-container" id="container-1"></div>
+        </div>
+
+        <div class="padişah-column" onclick="placeCard(2)">
+            <div class="padişah-name">SULTAN ABDULAZİZ</div>
+            <div class="placed-cards-container" id="container-2"></div>
+        </div>
+
+        <div class="padişah-column" onclick="placeCard(3)">
+            <div class="padişah-name">II. ABDÜLHAMİT</div>
+            <div class="placed-cards-container" id="container-3"></div>
+        </div>
+    </div>
+
+    <div class="action-container">
+        <div class="status-info" id="game-info">Kartı yerleştirmek için padişah tablosuna dokunun.</div>
+        <button class="btn" id="restart-btn" onclick="initGame()">Fanusu Yeniden Doldur ve Karıştır</button>
+    </div>
+
+    <script src="islahat.js"></script>
+</body>
+</html>

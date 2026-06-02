@@ -1,0 +1,85 @@
+:root {
+    --water-blue: #0077b6; 
+    --nature-green: #2a9d8f;
+    --correct-green: #2ecc71;
+    --wrong-red: #e74c3c;
+    --bg-color: #e9f5f8;
+}
+
+html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='20' viewBox='0 0 100 20'%3E%3Cpath d='M21.1,5.8c0,0,3.9,3,7.8,3s7.8-3,7.8-3s3.9,3,7.8,3s7.8-3,7.8-3' fill='none' stroke='%230077b6' stroke-width='0.5' opacity='0.15'/%3E%3C/svg%3E");
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+
+.header h1 { color: var(--water-blue); font-size: 16px; margin: 0 0 2px 0; text-align: center; }
+.header p { font-size: 11px; text-align: center; color: #555; margin: 0 0 5px 0; }
+
+.fanus-container {
+    background: white; border: 2px solid var(--water-blue);
+    border-radius: 8px; padding: 5px; text-align: center;
+    margin: 0 auto 5px auto; width: 100%; max-width: 450px; flex-shrink: 0;
+}
+
+.fanus-title { font-size: 10px; color: #777; font-weight: bold; margin-bottom: 3px; }
+.islahat-card { background-color: var(--water-blue); color: white; padding: 6px; border-radius: 4px; font-size: 14px; font-weight: bold; }
+
+/* 12'Lİ KOMPAKT IZGARA SİSTEMİ */
+.akarsular-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Masaüstünde 4 yan yana */
+    gap: 5px;
+    flex-grow: 1;
+    overflow-y: auto; /* Ekran küçülürse aşağı kaydırma izni */
+    padding-bottom: 5px;
+    scrollbar-width: none;
+}
+.akarsular-grid::-webkit-scrollbar { display: none; }
+
+.akarsu-column {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-top: 3px solid var(--water-blue);
+    border-radius: 5px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    min-height: 80px; /* En az yüksekliği kısalttık */
+}
+
+.akarsu-name {
+    font-size: 11px; font-weight: bold; color: var(--water-blue);
+    text-align: center; margin-bottom: 4px; border-bottom: 1px solid #ddd; padding-bottom: 2px;
+}
+
+.placed-cards-container { display: flex; flex-direction: column; gap: 2px; }
+
+.placed-card {
+    background-color: #023e8a; color: white; padding: 3px 4px;
+    border-radius: 2px; font-size: 9px; text-align: center;
+    line-height: 1.1;
+}
+
+.placed-card.correct { background-color: var(--correct-green) !important; }
+.placed-card.wrong { background-color: var(--wrong-red) !important; }
+
+.action-container { text-align: center; flex-shrink: 0; padding-top: 4px; }
+.status-info { font-size: 11px; font-weight: bold; background: white; padding: 4px; border-radius: 4px; margin-bottom: 4px;}
+.btn { background-color: var(--water-blue); color: white; border: none; padding: 6px 12px; font-size: 12px; border-radius: 4px; cursor: pointer; display: none; margin: 0 auto;}
+.back-link { text-decoration: none; color: var(--water-blue); font-size: 11px; font-weight: bold; }
+
+/* EKRAN KÜÇÜLDÜKÇE DEVREYE GİRECEK KURALLAR */
+@media (max-width: 800px) {
+    .akarsular-grid { grid-template-columns: repeat(3, 1fr); } /* Tablette 3 yan yana */
+}
+@media (max-width: 500px) {
+    .akarsular-grid { grid-template-columns: repeat(2, 1fr); } /* Mobilde 2 yan yana */
+    .akarsu-column { min-height: 70px; }
+}
