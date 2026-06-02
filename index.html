@@ -4,46 +4,198 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KPSS Eğitim Portalı</title>
-    <link rel="icon" type="image/jpeg" href="assets/ry_kpss.jpg">
-    <link rel="stylesheet" href="style.css"> <style>
+    <link rel="icon" type="image/jpeg" href="https://pbs.twimg.com/profile_images/1626359005951795201/hZun5XbZ_400x400.jpg">
+    <style>
+        :root {
+            --ottoman-purple: #4A154B; 
+            --ottoman-gold: #D4AF37;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f3ef;
+            background-image: radial-gradient(#d3cbbd 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: var(--ottoman-purple);
+            font-size: 28px;
+            margin: 0 0 5px 0;
+        }
+        .header p {
+            color: #666;
+            margin: 0;
+            font-style: italic;
+            font-size: 13px;
+        }
+
+        /* --- SAYAÇ TASARIMI --- */
+        .countdown-wrapper {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border: 2px dashed var(--ottoman-gold);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            box-sizing: border-box;
+        }
+        .countdown-wrapper h2 {
+            font-size: 16px; 
+            color: var(--ottoman-purple); 
+            margin: 0 0 15px 0;
+        }
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .countdown-card {
+            background: #fdfcfa;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 8px 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .countdown-card .exam-name {
+            font-size: 10px;
+            font-weight: 800;
+            color: #777;
+            margin-bottom: 5px;
+        }
+        .countdown-card .timer {
+            font-size: 15px;
+            color: var(--ottoman-purple);
+        }
+
+        /* --- OYUN MENÜSÜ TASARIMI --- */
         .portal-container {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; height: 80vh; gap: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            gap: 20px;
         }
         .game-card {
-            background: white; border: 2px solid var(--ottoman-purple);
-            border-radius: 15px; padding: 20px; width: 320px;
-            text-align: center; cursor: pointer; transition: 0.3s;
-            text-decoration: none; color: var(--ottoman-purple);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: white;
+            border: 2px solid var(--ottoman-purple);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--ottoman-purple);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-sizing: border-box;
         }
         .game-card:hover {
-            transform: translateY(-5px); background: var(--ottoman-purple); color: white;
+            transform: translateY(-5px);
+            background-color: var(--ottoman-purple);
+            color: white;
         }
         .game-card h2 { margin: 0 0 10px 0; font-size: 22px; }
-        .game-card p { margin: 0; font-size: 13px; opacity: 0.8; }
+        .game-card p { margin: 0; font-size: 13px; opacity: 0.85; }
+        
+        /* Coğrafya Butonuna Özel Renk */
         .coğrafya-card { border-color: #0077b6; color: #0077b6; }
-        .coğrafya-card:hover { background: #0077b6; color: white; }
+        .coğrafya-card:hover { background-color: #0077b6; color: white; }
+
+        /* Mobil Uyum İçin Sayaç Kırılımı */
+        @media (max-width: 450px) {
+            .countdown-grid { grid-template-columns: repeat(2, 1fr); }
+        }
     </style>
 </head>
 <body>
-    <div class="header" style="margin-top: 50px;">
-        <h1>🎯 KPSS Oyun Portalı</h1>
-        <p>Hangi dersten başlamak istersin hocam?</p>
+
+    <div class="header">
+        <h1>🎯 KPSS Eğitim Portalı</h1>
+        <p>"Hafızanı test et, netlerini artır!"</p>
+    </div>
+
+    <div class="countdown-wrapper">
+        <h2>⏳ Sınavlara Kalan Süre</h2>
+        <div class="countdown-grid">
+            <div class="countdown-card">
+                <span class="exam-name">AGS</span>
+                <span class="timer" id="timer-ags">...</span>
+            </div>
+            <div class="countdown-card">
+                <span class="exam-name">ALAN (ÖABT)</span>
+                <span class="timer" id="timer-alan">...</span>
+            </div>
+            <div class="countdown-card">
+                <span class="exam-name">LİSANS KPSS</span>
+                <span class="timer" id="timer-lisans">...</span>
+            </div>
+            <div class="countdown-card">
+                <span class="exam-name">ÖNLİSANS</span>
+                <span class="timer" id="timer-onlisans">...</span>
+            </div>
+        </div>
     </div>
 
     <div class="portal-container">
-        <a href="tarih/islahatlar.html" class="game-card">
-            <div style="font-size: 40px;">📜</div>
+        <a href="islahat.html" class="game-card">
+            <div style="font-size: 40px; margin-bottom: 10px;">📜</div>
             <h2>Islahatlar Fanusu</h2>
-            <p>Osmanlı Padişahları ve Islahatları (Tarih)</p>
+            <p>Osmanlı Padişahları ve Islahatları</p>
         </a>
 
-        <a href="cografya/baraj.html" class="game-card coğrafya-card">
-            <div style="font-size: 40px;">🌊</div>
+        <a href="baraj.html" class="game-card coğrafya-card">
+            <div style="font-size: 40px; margin-bottom: 10px;">🌊</div>
             <h2>Akarsu-Baraj Fanusu</h2>
-            <p>Akarsular ve Üzerindeki Barajlar (Coğrafya)</p>
+            <p>Türkiye'nin Akarsuları ve Barajları</p>
         </a>
     </div>
+
+    <script>
+        // 2026 ÖSYM Takvimi - Milisaniye Çevirimi
+        const examDates = {
+            ags: new Date("July 12, 2026 10:15:00").getTime(),
+            alan: new Date("July 12, 2026 10:15:00").getTime(),
+            lisans: new Date("September 6, 2026 10:15:00").getTime(),
+            onlisans: new Date("October 4, 2026 10:15:00").getTime()
+        };
+
+        function updateCounters() {
+            const now = new Date().getTime();
+
+            for (const [exam, date] of Object.entries(examDates)) {
+                const distance = date - now;
+                const element = document.getElementById(`timer-${exam}`);
+
+                if (distance < 0) {
+                    element.innerHTML = "Tamamlandı!";
+                    element.style.color = "#2ecc71"; // Sınav bittiğinde yeşil olur
+                    element.style.fontSize = "12px";
+                } else {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    element.innerHTML = `<strong>${days}</strong> Gün`;
+                }
+            }
+        }
+
+        // Sayfa yüklendiğinde hesapla ve yazdır
+        updateCounters();
+        // Gün döngüleri için her 1 saatte bir arka planda rakamları kontrol et
+        setInterval(updateCounters, 1000 * 60 * 60);
+    </script>
 </body>
 </html>
